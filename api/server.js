@@ -104,7 +104,7 @@ app.patch("/recipes/:recipeId", async (req, res) => {
 
 // Delete a specific recipe
 app.delete("/recipes/:recipeId", async (req, res) => {
-    const targetId = parseInt(req.params.targetId, 10);
+    const targetId = parseInt(req.params.recipeId, 10);
 
     try {
         const deleteOp = await Recipe.destroy({
