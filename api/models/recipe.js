@@ -13,17 +13,56 @@ module.exports = (sequelize, DataTypes) => {
     }
     Recipe.init(
         {
-            title: DataTypes.STRING,
-            description: DataTypes.TEXT,
-            ingredients: DataTypes.TEXT,
-            instructions: DataTypes.TEXT,
-            createdAt: DataTypes.DATE,
-            updatedAt: DataTypes.DATE,
+            title: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                validation: {
+                    checkLength(value) {
+                        if (this.title.length < 3) {
+                            throw new Error(
+                                "Title must be at least 3 characters."
+                            );
+                        }
+                    },
+                },
+            },
+            description: {
+                type: DataTypes.TEXT,
+                allowNull: false,
+                validate: {
+                    len: [0, 500],
+                },
+            },
+            ingredients: {
+                type: DataTypes.TEXT,
+                allowNull: false,
+                validate: {
+                    len: [0, 1000],
+                },
+            },
+            instructions: {
+                type: DataTypes.TEXT,
+                allowNull: false,
+                validate: {
+                    len: [0, 5000],
+                },
+            },
+            // created_at: {
+            //     type: DataTypes.DATE,
+            //     allowNull: false,
+            //     defaultValue: DataTypes.NOW,
+            // },
+            // updated_at: {
+            //     type: DataTypes.DATE,
+            //     allowNull: false,
+            //     defaultValue: DataTypes.NOW,
+            // },
         },
         {
             sequelize,
             modelName: "Recipe",
             tableName: "recipes",
+            underscored: true,
         }
     );
     return Recipe;
